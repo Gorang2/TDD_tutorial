@@ -1,20 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-import unittest
-
-class CrawlerTester(unittest.TestCase) :
-    def test_phrase(self):
-        print("========== Test1 : finding phrase in html ============")
-        crwler = Crawler("http://naver.com", "네이버를 시작페이지로")
-        crwler.crawl()
-        self.assertEqual(["네이버를 시작페이지로"], crwler.getResult())
-
 
 class Crawler :
-    def __init__(self, url, keyword):
+    def __init__(self, url, phrase_to_find):
         self.result = []
         self.url = url
-        self.keyword = keyword
+        self.phrase_to_find= phrase_to_find
         self.html_lst = []
 
     def crawl(self):
@@ -26,17 +17,14 @@ class Crawler :
             html = response.text
             soup = BeautifulSoup(html, "html.parser")
             self.html_lst = str(soup.body).replace(">", "<").split("<")
-            self.find_keyword()
+            self.find_phrase()
 
-    def find_keyword(self):
+    def find_phrase(self):
             for i in self.html_lst:
-                if self.keyword == i:
+                if self.phrase_to_find == i:
                     self.result.append(i)
 
     def getResult(self):
         if len(self.result) == 0:
             return False
         return self.result
-
-if __name__ == '__main__':
-    unittest.main()
