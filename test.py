@@ -1,6 +1,7 @@
+import mock
 from tdd import Crawler
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 class CrawlerTester(unittest.TestCase) :
     def test_phrase(self):
         print("========== Test1 : finding phrase in html ============")
@@ -17,7 +18,9 @@ class CrawlerTester(unittest.TestCase) :
     def test_count(self):
         print("=============== Test3 : count the results ==============")
         crwler = Crawler("http://naver.com", "행복")
-        crwler.method = MagicMock(return_value= 10*"<p>행복하세요!~~</p>")
-        self.assertEqual(10, crwler.getCount())
+        mock = Mock(return_value= ["<p>행복하세요!</p>", "<p>행복하세요!</p>", "<p>행복하세요!</p>"])
+        crwler.html_lst = mock()
+        crwler.find_keyword()  
+        self.assertEqual(3, crwler.getCount())
 if __name__ == '__main__':
     unittest.main()

@@ -28,3 +28,6 @@ class Crawler :
         if len(self.result) == 0:
             return False
         return self.result
+    
+    def getCount(self):
+        return len(self.result)
