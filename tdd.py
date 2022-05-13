@@ -2,10 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 
 class Crawler :
-    def __init__(self, url, phrase_to_find):
+    def __init__(self, url, keyword):
         self.result = []
         self.url = url
-        self.phrase_to_find= phrase_to_find
+        self.keyword= keyword
         self.html_lst = []
 
     def crawl(self):
@@ -17,11 +17,11 @@ class Crawler :
             html = response.text
             soup = BeautifulSoup(html, "html.parser")
             self.html_lst = str(soup.body).replace(">", "<").split("<")
-            self.find_phrase()
+            self.find_keyword()
 
-    def find_phrase(self):
+    def find_keyword(self):
             for i in self.html_lst:
-                if self.phrase_to_find == i:
+                if self.keyword in i:
                     self.result.append(i)
 
     def getResult(self):
